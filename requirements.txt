@@ -1,0 +1,20 @@
+# Machine Learning
+torch
+torchvision
+pytorch-lightning
+
+# MLOps & Data
+dvc
+mlflow
+nextflow
+
+# API & Web
+fastapi
+uvicorn
+python-multipart
+
+# Utils
+pandas 
+matplotlib 
+scikit-learn
+opencv-python
