@@ -12,12 +12,13 @@ np.seterr(all='ignore')
 
 import sys
 
-if len(sys.argv) != 3:
-    print("Usage: python normalisation.py <input_zarr> <output_zarr>")
+if len(sys.argv) != 4:
+    print("Usage: python normalisation.py <input_zarr> <output_zarr> <reference_zarr>")
     sys.exit(1)
 
 ZARR_RAW_PATH = sys.argv[1]
 ZARR_PROCESSED_PATH = sys.argv[2]
+ZARR_REF_PATH = sys.argv[3]
 
 def is_patch_useful(img):
     gray = cv2.cvtColor(img, cv2.COLOR_RGB2GRAY)
@@ -39,8 +40,9 @@ def process_chunk(block, normalizer=None):
 def main():
     dask.config.set(scheduler='processes')
     data_x = da.from_zarr(ZARR_RAW_PATH)
+    ref_data = da.from_zarr(ZARR_REF_PATH)
     
-    ref_patch = data_x[100].compute() 
+    ref_patch = ref_data[100].compute() 
     
     normalizer = torchstain.normalizers.MacenkoNormalizer(backend='numpy')
     normalizer.fit(ref_patch)

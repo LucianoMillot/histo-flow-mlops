@@ -58,3 +58,186 @@ stages:
       md5: 0ca8df6e4b11119ec157dc28bf2770ed.dir
       size: 480476
       nfiles: 3
+  convert_train:
+    cmd: env/bin/python src/convert_2_zarr.py data/raw/pcam/training_split.h5 
+      data/interim/training_split.zarr
+    deps:
+    - path: data/raw/pcam/training_split.h5
+      hash: md5
+      md5: 01844da899645b4d6f84946d417ba453
+      size: 7248299800
+    - path: src/convert_2_zarr.py
+      hash: md5
+      md5: 43fdbc57bbf28ceb879c94205390e467
+      size: 596
+    outs:
+    - path: data/interim/training_split.zarr
+      hash: md5
+      md5: f1237b85085b28b7b9402613f75d24e5.dir
+      size: 6575526814
+      nfiles: 133
+  convert_valid:
+    cmd: env/bin/python src/convert_2_zarr.py data/raw/pcam/validation_split.h5 
+      data/interim/validation_split.zarr
+    deps:
+    - path: data/raw/pcam/validation_split.h5
+      hash: md5
+      md5: 81cf9680f1724c40673f10dc88e909b1
+      size: 906040528
+    - path: src/convert_2_zarr.py
+      hash: md5
+      md5: 43fdbc57bbf28ceb879c94205390e467
+      size: 596
+    outs:
+    - path: data/interim/validation_split.zarr
+      hash: md5
+      md5: 2201c6266f6176c410ecd327d38b4f17.dir
+      size: 805964418
+      nfiles: 18
+  convert_test:
+    cmd: env/bin/python src/convert_2_zarr.py data/raw/pcam/test_split.h5 
+      data/interim/test_split.zarr
+    deps:
+    - path: data/raw/pcam/test_split.h5
+      hash: md5
+      md5: 2614b2e6717d6356be141d9d6dbfcb7e
+      size: 906040528
+    - path: src/convert_2_zarr.py
+      hash: md5
+      md5: 43fdbc57bbf28ceb879c94205390e467
+      size: 596
+    outs:
+    - path: data/interim/test_split.zarr
+      hash: md5
+      md5: def62c5277647fe67530c7e86d760d36.dir
+      size: 815457355
+      nfiles: 18
+  normalize_train:
+    cmd: env/bin/python src/normalisation.py data/interim/training_split.zarr 
+      data/processed/train_x_norm.zarr
+    deps:
+    - path: data/interim/training_split.zarr
+      hash: md5
+      md5: f1237b85085b28b7b9402613f75d24e5.dir
+      size: 6575526814
+      nfiles: 133
+    - path: src/normalisation.py
+      hash: md5
+      md5: 00dca423eeeb5449cff999c6947eb5be
+      size: 1509
+    outs:
+    - path: data/processed/train_x_norm.zarr
+      hash: md5
+      md5: f127ae24f4ad6876367bab000eef654d.dir
+      size: 6681118660
+      nfiles: 133
+  normalize_valid:
+    cmd: env/bin/python src/normalisation.py data/interim/validation_split.zarr 
+      data/processed/valid_x_norm.zarr
+    deps:
+    - path: data/interim/validation_split.zarr
+      hash: md5
+      md5: 2201c6266f6176c410ecd327d38b4f17.dir
+      size: 805964418
+      nfiles: 18
+    - path: src/normalisation.py
+      hash: md5
+      md5: 00dca423eeeb5449cff999c6947eb5be
+      size: 1509
+    outs:
+    - path: data/processed/valid_x_norm.zarr
+      hash: md5
+      md5: b4e3bd911c1017bd10a2a68f604aef2a.dir
+      size: 842185292
+      nfiles: 18
+  normalize_test:
+    cmd: env/bin/python src/normalisation.py data/interim/test_split.zarr 
+      data/processed/test_x_norm.zarr
+    deps:
+    - path: data/interim/test_split.zarr
+      hash: md5
+      md5: def62c5277647fe67530c7e86d760d36.dir
+      size: 815457355
+      nfiles: 18
+    - path: src/normalisation.py
+      hash: md5
+      md5: 00dca423eeeb5449cff999c6947eb5be
+      size: 1509
+    outs:
+    - path: data/processed/test_x_norm.zarr
+      hash: md5
+      md5: cb3540806bedbe18bed87fa44fafaef0.dir
+      size: 804404267
+      nfiles: 18
+  diagnose_train:
+    cmd: env/bin/python src/diag.py data/interim/training_split.zarr 
+      data/processed/train_x_norm.zarr data/diagnostics/train
+    deps:
+    - path: data/interim/training_split.zarr
+      hash: md5
+      md5: f1237b85085b28b7b9402613f75d24e5.dir
+      size: 6575526814
+      nfiles: 133
+    - path: data/processed/train_x_norm.zarr
+      hash: md5
+      md5: f127ae24f4ad6876367bab000eef654d.dir
+      size: 6681118660
+      nfiles: 133
+    - path: src/diag.py
+      hash: md5
+      md5: df274f233631239f1984cf17fcaf23c0
+      size: 4411
+    outs:
+    - path: data/diagnostics/train
+      hash: md5
+      md5: f0e825443429155ee8e1c8d168f0be51.dir
+      size: 536808
+      nfiles: 3
+  diagnose_valid:
+    cmd: env/bin/python src/diag.py data/interim/validation_split.zarr 
+      data/processed/valid_x_norm.zarr data/diagnostics/valid
+    deps:
+    - path: data/interim/validation_split.zarr
+      hash: md5
+      md5: 2201c6266f6176c410ecd327d38b4f17.dir
+      size: 805964418
+      nfiles: 18
+    - path: data/processed/valid_x_norm.zarr
+      hash: md5
+      md5: b4e3bd911c1017bd10a2a68f604aef2a.dir
+      size: 842185292
+      nfiles: 18
+    - path: src/diag.py
+      hash: md5
+      md5: df274f233631239f1984cf17fcaf23c0
+      size: 4411
+    outs:
+    - path: data/diagnostics/valid
+      hash: md5
+      md5: 1d8b0a64675866ff6c6254b4f7b3fa0e.dir
+      size: 544495
+      nfiles: 3
+  diagnose_test:
+    cmd: env/bin/python src/diag.py data/interim/test_split.zarr 
+      data/processed/test_x_norm.zarr data/diagnostics/test
+    deps:
+    - path: data/interim/test_split.zarr
+      hash: md5
+      md5: def62c5277647fe67530c7e86d760d36.dir
+      size: 815457355
+      nfiles: 18
+    - path: data/processed/test_x_norm.zarr
+      hash: md5
+      md5: cb3540806bedbe18bed87fa44fafaef0.dir
+      size: 804404267
+      nfiles: 18
+    - path: src/diag.py
+      hash: md5
+      md5: df274f233631239f1984cf17fcaf23c0
+      size: 4411
+    outs:
+    - path: data/diagnostics/test
+      hash: md5
+      md5: 44a37ec7f2802674cb6bf4040e3d5511.dir
+      size: 533646
+      nfiles: 3
