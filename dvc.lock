@@ -1,0 +1,60 @@
+schema: '2.0'
+stages:
+  convert:
+    cmd: env/bin/python src/convert_2_zarr.py
+    deps:
+    - path: data/raw/pcam/training_split.h5
+      hash: md5
+      md5: 01844da899645b4d6f84946d417ba453
+      size: 7248299800
+    - path: src/convert_2_zarr.py
+      hash: md5
+      md5: 06f916a884b339d481896be8898b1727
+      size: 519
+    outs:
+    - path: data/interim/training_split.zarr
+      hash: md5
+      md5: f1237b85085b28b7b9402613f75d24e5.dir
+      size: 6575526814
+      nfiles: 133
+  normalize:
+    cmd: env/bin/python src/normalisation.py
+    deps:
+    - path: data/interim/training_split.zarr
+      hash: md5
+      md5: f1237b85085b28b7b9402613f75d24e5.dir
+      size: 6575526814
+      nfiles: 133
+    - path: src/normalisation.py
+      hash: md5
+      md5: 16c6cb8d3f0e0bc7c0838f33ae948944
+      size: 1432
+    outs:
+    - path: data/processed/train_x_norm.zarr
+      hash: md5
+      md5: f127ae24f4ad6876367bab000eef654d.dir
+      size: 6681118660
+      nfiles: 133
+  diagnose:
+    cmd: env/bin/python src/diag.py
+    deps:
+    - path: data/interim/training_split.zarr
+      hash: md5
+      md5: f1237b85085b28b7b9402613f75d24e5.dir
+      size: 6575526814
+      nfiles: 133
+    - path: data/processed/train_x_norm.zarr
+      hash: md5
+      md5: f127ae24f4ad6876367bab000eef654d.dir
+      size: 6681118660
+      nfiles: 133
+    - path: src/diag.py
+      hash: md5
+      md5: f8f46e7f9b109f42df077221d3cf67ca
+      size: 4339
+    outs:
+    - path: data/diagnostics/
+      hash: md5
+      md5: 0ca8df6e4b11119ec157dc28bf2770ed.dir
+      size: 480476
+      nfiles: 3

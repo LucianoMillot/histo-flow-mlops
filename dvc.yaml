@@ -1,0 +1,69 @@
+stages:
+  convert_train:
+    cmd: env/bin/python src/convert_2_zarr.py data/raw/pcam/training_split.h5 data/interim/training_split.zarr
+    deps:
+      - src/convert_2_zarr.py
+      - data/raw/pcam/training_split.h5
+    outs:
+      - data/interim/training_split.zarr
+  convert_valid:
+    cmd: env/bin/python src/convert_2_zarr.py data/raw/pcam/validation_split.h5 data/interim/validation_split.zarr
+    deps:
+      - src/convert_2_zarr.py
+      - data/raw/pcam/validation_split.h5
+    outs:
+      - data/interim/validation_split.zarr
+  convert_test:
+    cmd: env/bin/python src/convert_2_zarr.py data/raw/pcam/test_split.h5 data/interim/test_split.zarr
+    deps:
+      - src/convert_2_zarr.py
+      - data/raw/pcam/test_split.h5
+    outs:
+      - data/interim/test_split.zarr
+
+  normalize_train:
+    cmd: env/bin/python src/normalisation.py data/interim/training_split.zarr data/processed/train_x_norm.zarr
+    deps:
+      - src/normalisation.py
+      - data/interim/training_split.zarr
+    outs:
+      - data/processed/train_x_norm.zarr
+  normalize_valid:
+    cmd: env/bin/python src/normalisation.py data/interim/validation_split.zarr data/processed/valid_x_norm.zarr
+    deps:
+      - src/normalisation.py
+      - data/interim/validation_split.zarr
+    outs:
+      - data/processed/valid_x_norm.zarr
+  normalize_test:
+    cmd: env/bin/python src/normalisation.py data/interim/test_split.zarr data/processed/test_x_norm.zarr
+    deps:
+      - src/normalisation.py
+      - data/interim/test_split.zarr
+    outs:
+      - data/processed/test_x_norm.zarr
+
+  diagnose_train:
+    cmd: env/bin/python src/diag.py data/interim/training_split.zarr data/processed/train_x_norm.zarr data/diagnostics/train
+    deps:
+      - src/diag.py
+      - data/interim/training_split.zarr
+      - data/processed/train_x_norm.zarr
+    outs:
+      - data/diagnostics/train
+  diagnose_valid:
+    cmd: env/bin/python src/diag.py data/interim/validation_split.zarr data/processed/valid_x_norm.zarr data/diagnostics/valid
+    deps:
+      - src/diag.py
+      - data/interim/validation_split.zarr
+      - data/processed/valid_x_norm.zarr
+    outs:
+      - data/diagnostics/valid
+  diagnose_test:
+    cmd: env/bin/python src/diag.py data/interim/test_split.zarr data/processed/test_x_norm.zarr data/diagnostics/test
+    deps:
+      - src/diag.py
+      - data/interim/test_split.zarr
+      - data/processed/test_x_norm.zarr
+    outs:
+      - data/diagnostics/test
