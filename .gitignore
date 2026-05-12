@@ -7,3 +7,15 @@ data/raw/*
 !data/raw/.gitignore
 creds.json
 
+# --- Artifacts & Logs ---
+data/diagnostics/
+*.png
+*.log
+
+# --- Python / IDE ---
+*.pyc
+*.pyo
+.ipynb_checkpoints/
+.vscode/
+.idea/
+data/diagnostics/
