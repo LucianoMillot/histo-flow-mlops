@@ -5,3 +5,5 @@ __pycache__/
 data/raw/*
 !data/raw/*.dvc
 !data/raw/.gitignore
+creds.json
+
