@@ -5,9 +5,15 @@ import zarr
 import os
 import logging
 
-ZARR_RAW_PATH = '../data/raw/pcam/training_split.zarr'
-ZARR_PROCESSED_PATH = '../data/processed/train_x_norm.zarr'
-OUTPUT_DIR = '../data/diagnostics'
+import sys
+
+if len(sys.argv) != 4:
+    print("Usage: python diag.py <input_zarr> <norm_zarr> <output_dir>")
+    sys.exit(1)
+
+ZARR_RAW_PATH = sys.argv[1]
+ZARR_PROCESSED_PATH = sys.argv[2]
+OUTPUT_DIR = sys.argv[3]
 
 os.makedirs(OUTPUT_DIR, exist_ok=True)
 

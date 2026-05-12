@@ -2,8 +2,14 @@ import h5py
 import zarr
 import os
 
-H5_PATH = '../data/raw/pcam/training_split.h5'
-ZARR_PATH = '../data/raw/pcam/training_split.zarr'
+import sys
+
+if len(sys.argv) != 3:
+    print("Usage: python convert_2_zarr.py <input_h5> <output_zarr>")
+    sys.exit(1)
+
+H5_PATH = sys.argv[1]
+ZARR_PATH = sys.argv[2]
 
 print("Chargement des données HDF5 en RAM...")
 with h5py.File(H5_PATH, 'r') as f:

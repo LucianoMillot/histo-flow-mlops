@@ -10,8 +10,14 @@ import warnings
 warnings.filterwarnings('ignore')
 np.seterr(all='ignore')
 
-ZARR_RAW_PATH = '../data/raw/pcam/training_split.zarr'
-ZARR_PROCESSED_PATH = '../data/processed/train_x_norm.zarr'
+import sys
+
+if len(sys.argv) != 3:
+    print("Usage: python normalisation.py <input_zarr> <output_zarr>")
+    sys.exit(1)
+
+ZARR_RAW_PATH = sys.argv[1]
+ZARR_PROCESSED_PATH = sys.argv[2]
 
 def is_patch_useful(img):
     gray = cv2.cvtColor(img, cv2.COLOR_RGB2GRAY)
