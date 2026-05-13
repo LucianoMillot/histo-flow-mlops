@@ -19,3 +19,7 @@ data/diagnostics/
 .vscode/
 .idea/
 data/diagnostics/
+
+# --- MLflow ---
+mlruns/
+mlflow.db

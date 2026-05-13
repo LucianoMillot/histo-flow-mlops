@@ -1,0 +1,7 @@
+train:
+  batch_size: 128
+  epochs: 30
+  lr: 0.001
+  num_workers: 24
+  seed: 42
+  dropout_rate: 0.2
