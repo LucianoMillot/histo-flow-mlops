@@ -52,9 +52,10 @@ def train():
     
     with mlflow.start_run():
         mlflow.pytorch.autolog()
-        mlflow.log_params(config)
+        import os
+        os.makedirs("models", exist_ok=True)
 
-        # Training loop
+        # --- 6. BOUCLE D'ENTRAÎNEMENT (EPOCHS VS BATCHES) ---
         for epoch in range(config["epochs"]):
             model.train()
             running_loss = 0.0
@@ -76,6 +77,9 @@ def train():
 
                 running_loss += loss.item()
                 loop.set_postfix(loss=loss.item())
+            
+            # Sauvegarde intermédiaire à chaque époque (Checkpoint)
+            torch.save(model.state_dict(), f"models/model_epoch_{epoch+1}.pth")
 
         # Export model
         torch.save(model.state_dict(), "models/model.pth")
