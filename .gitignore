@@ -23,4 +23,3 @@ data/diagnostics/
 # --- MLflow ---
 mlruns/
 mlflow.db
-/models
